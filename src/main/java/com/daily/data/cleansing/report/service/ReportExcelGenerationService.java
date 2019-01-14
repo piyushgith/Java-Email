@@ -50,12 +50,8 @@ public class ReportExcelGenerationService {
 		File file = new File(folderPath + "/" + fileName);
 		// Create only if it does not exist already
 		try {
-			if (!dir.exists()) {
-				dir.mkdir();
-			}
-			if (!file.exists()) {
-				file.createNewFile();
-			}
+			if (!dir.exists()) { dir.mkdir(); }
+			if (!file.exists()) { file.createNewFile(); }
 
 		} catch (IOException ie) {
 			ie.printStackTrace();
