@@ -20,26 +20,30 @@ public class ReportDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	//private static final String SQL = "select * from calldetails";
-	
+	// private static final String SQL = "select * from calldetails";
+
 	@Value("${sql.query}")
 	private String SQL;
-	
 
 	public List<ReportBean> findAll() {
 
 		List<ReportBean> reportList = new ArrayList<ReportBean>();
+
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
 
 		for (Map<String, Object> row : rows) {
-
+			// row.forEach((K, V) -> { System.out.println(V.toString());});
 			ReportBean reportBean = new ReportBean();
+			reportBean.setId((Long) row.get("id"));
+			reportBean.setEmail((String) row.get("email"));
+			reportBean.setAsset((String) row.get("Asset"));
+			reportBean.setCreateDate((Date) row.get("createDate"));
+			reportBean.setLoadStatus((String) row.get("loadStatus"));
+			reportBean.setOriginalID((Long) row.get("originalID"));
+			reportBean.setRampEventType((String) row.get("rampEventType"));
+			reportBean.setStatus((String) row.get("status"));
+			reportBean.setUpdateDate((Date) row.get("updateDate"));
 
-			reportBean.setId((int) row.get("id"));
-			reportBean.setCalled_by((Long) row.get("called_by"));
-			reportBean.setCalled_to((Long) row.get("called_to"));
-			reportBean.setCalled_on((Date) row.get("called_on"));
-			reportBean.setDuration((int) row.get("duration"));
 			reportList.add(reportBean);
 		}
 		return reportList;

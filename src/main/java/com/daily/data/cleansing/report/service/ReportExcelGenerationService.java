@@ -39,6 +39,7 @@ public class ReportExcelGenerationService {
 		List<ReportBean> reportList = reportDao.findAll();
 		writeExcelFile(generateFile(folderPath), reportList);
 		return reportList;
+		
 	}
 
 	private File generateFile(String folderPath) {
@@ -84,19 +85,27 @@ public class ReportExcelGenerationService {
 	}
 
 	private void createBody(XSSFSheet sheet, int rowCount, List<ReportBean> reportList) {
-		SimpleDateFormat sf=new SimpleDateFormat("MM/dd/YYYY");
+		SimpleDateFormat sf=new SimpleDateFormat("dd/MMM/YYYY");
 		for (ReportBean report : reportList) {
 			XSSFRow xssRow = sheet.createRow(++rowCount);
 			Cell bodyCell = xssRow.createCell(0);
-			bodyCell.setCellValue(report.getId());
+			bodyCell.setCellValue(report.getEmail());
 			bodyCell = xssRow.createCell(1);
-			bodyCell.setCellValue(report.getCalled_by());
+			bodyCell.setCellValue(String.valueOf(report.getId()));//converting bigint to string seCellValue can accept double but not good way
 			bodyCell = xssRow.createCell(2);
-			bodyCell.setCellValue(report.getCalled_to());
+			bodyCell.setCellValue(report.getAsset());
 			bodyCell = xssRow.createCell(3);
-			bodyCell.setCellValue(sf.format(report.getCalled_on()));
+			bodyCell.setCellValue(report.getRampEventType());
 			bodyCell = xssRow.createCell(4);
-			bodyCell.setCellValue(report.getDuration());
+			bodyCell.setCellValue(report.getLoadStatus());
+			bodyCell = xssRow.createCell(5);
+			bodyCell.setCellValue(report.getStatus());
+			bodyCell = xssRow.createCell(6);
+			bodyCell.setCellValue(sf.format(report.getCreateDate()));
+			bodyCell = xssRow.createCell(7);
+			bodyCell.setCellValue(sf.format(report.getUpdateDate()));
+			bodyCell = xssRow.createCell(8);
+			bodyCell.setCellValue(String.valueOf(report.getOriginalID()));
 
 		}
 	}
@@ -106,25 +115,35 @@ public class ReportExcelGenerationService {
 		cs.setWrapText(true);
 
 		XSSFRow xssRow = sheet.createRow(row);
-		//xssRow.setRowStyle(cs);
-		// cs.setAlignment(HorizontalAlignment.LEFT);
 
 		Cell headerCell = xssRow.createCell(0);
-		headerCell.setCellValue("ID");
+		headerCell.setCellValue("EMAIL");
 		headerCell = xssRow.createCell(1);
-		headerCell.setCellValue("CALLED_BY");
+		headerCell.setCellValue("ID");
 		headerCell = xssRow.createCell(2);
-		headerCell.setCellValue("CALLED_TO");
+		headerCell.setCellValue("ASSET");
 		headerCell = xssRow.createCell(3);
-		headerCell.setCellValue("CALLED_DATE");
+		headerCell.setCellValue("RAMP_EVENT_TYPE");
 		headerCell = xssRow.createCell(4);
-		headerCell.setCellValue("DURATION");
+		headerCell.setCellValue("LOAD_STATUS");
+		headerCell = xssRow.createCell(5);
+		headerCell.setCellValue("STATUS");
+		headerCell = xssRow.createCell(6);
+		headerCell.setCellValue("CREATE_DATE");
+		headerCell = xssRow.createCell(7);
+		headerCell.setCellValue("UPDATE_DATE");
+		headerCell = xssRow.createCell(8);
+		headerCell.setCellValue("ORIGINAL_ID");
 
-		sheet.setColumnWidth(0, poiWidth(24.0));
+		sheet.setColumnWidth(0, poiWidth(35.0));
 		sheet.setColumnWidth(1, poiWidth(24.0));
 		sheet.setColumnWidth(2, poiWidth(24.0));
 		sheet.setColumnWidth(3, poiWidth(24.0));
 		sheet.setColumnWidth(4, poiWidth(24.0));
+		sheet.setColumnWidth(5, poiWidth(24.0));
+		sheet.setColumnWidth(6, poiWidth(24.0));
+		sheet.setColumnWidth(7, poiWidth(24.0));
+		sheet.setColumnWidth(8, poiWidth(24.0));
 		
 		row++;
 	}

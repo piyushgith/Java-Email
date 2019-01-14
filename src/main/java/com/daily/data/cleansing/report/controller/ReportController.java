@@ -3,6 +3,7 @@ package com.daily.data.cleansing.report.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import com.daily.data.cleansing.report.service.ReportExcelGenerationService;
 
 @RestController
 //@RequestMapping("")
+@CrossOrigin(origins = "http://localhost:9999")
 public class ReportController {
 
 	@Autowired

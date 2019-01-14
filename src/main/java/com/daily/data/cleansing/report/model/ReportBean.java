@@ -8,50 +8,93 @@ import org.springframework.stereotype.Component;
 //@Component
 public class ReportBean {
 
-	private int id;
-	private Long called_by;
-	private Long called_to;
-	private Date called_on;
-	private int duration;
+	private Long id;
+	private String email;
+	private String asset;
+	private String rampEventType;
+	private String loadStatus;
+	private String status;
+	private Date createDate;
+	private Date updateDate;
+	private Long originalID;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public String getEmail() {
+		return email;
+	}
+
+	public String getAsset() {
+		return asset;
+	}
+
+	public String getRampEventType() {
+		return rampEventType;
+	}
+
+	public String getLoadStatus() {
+		return loadStatus;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Long getCalled_by() {
-		return called_by;
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
-	public void setCalled_by(Long called_by) {
-		this.called_by = called_by;
+	public Long getOriginalID() {
+		return originalID;
 	}
 
-	public Long getCalled_to() {
-		return called_to;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void setCalled_to(Long called_to) {
-		this.called_to = called_to;
+	public void setAsset(String asset) {
+		this.asset = asset;
 	}
 
-	public Date getCalled_on() {
-		return called_on;
+	public void setRampEventType(String rampEventType) {
+		this.rampEventType = rampEventType;
 	}
 
-	public void setCalled_on(Date called_on) {
-		this.called_on = called_on;
+	public void setLoadStatus(String loadStatus) {
+		this.loadStatus = loadStatus;
 	}
 
-	public int getDuration() {
-		return duration;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public void setOriginalID(Long originalID) {
+		this.originalID = originalID;
+	}
+
+	@Override
+	public String toString() {
+		return "ReportBean [email=" + email + ",id=" + id + ", asset=" + asset + ", rampEventType=" + rampEventType
+				+ ", loadStatus=" + loadStatus + ", status=" + status + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + ", originalID=" + originalID + "]";
 	}
 
 }
