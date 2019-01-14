@@ -4,9 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +30,38 @@ public class ReportExcelGenerationService {
 
 	@Autowired
 	private ReportDao reportDao;
+	
+	private Logger LOG=Logger.getLogger(this.getClass());
 
-	private final String filePath = "C:/Users/INSPIRON/Documents/DataExport/Report.xls";
+	private final String folderPath = System.getProperty("user.home")+"/Documents/DataExport";
 
 	public List<ReportBean> findDetails() {
 		List<ReportBean> reportList = reportDao.findAll();
-		writeExcelFile(generateFile(), reportList);
+		writeExcelFile(generateFile(folderPath), reportList);
 		return reportList;
 	}
 
-	private File generateFile() {
+	private File generateFile(String folderPath) {
 
-		File file = new File(filePath);
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-				return file;
-			} catch (IOException e) {
-				e.printStackTrace();
+		SimpleDateFormat sdformat = new SimpleDateFormat("MMM-dd-yyyy");
+		Date date = new Date();
+		String fileName = "Report_" + sdformat.format(date) + ".xlsx";
+		File dir = new File(folderPath);
+		File file = new File(folderPath + "/" + fileName);
+		// Create only if it does not exist already
+		try {
+			if (!dir.exists()) {
+				dir.mkdir();
 			}
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+		} catch (IOException ie) {
+			ie.printStackTrace();
 		}
 		return file;
+
 	}
 
 	private void writeExcelFile(File file, List<ReportBean> reportList) {

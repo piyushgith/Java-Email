@@ -2,9 +2,8 @@ buildscript {
 	ext {
 		springBootVersion = '1.5.18.RELEASE'
 	}
-	repositories {
-		mavenCentral()
-	}
+	//repositories {	mavenCentral()	}
+	repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
@@ -17,9 +16,8 @@ group = 'com.daily.data.cleansing.report'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-repositories {
-	mavenCentral()
-}
+//repositories {	mavenCentral() }
+repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
