@@ -25,11 +25,9 @@ public class ReportController {
 	}
 
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	public List<ReportBean> getData() {
-		
-		List<ReportBean> reportList = reportExcelGenerationService.findDetails();
-		reportList.forEach(System.out::println);
-		return reportList;
+	public String getData() {
+		//String result = reportExcelGenerationService.findDetails();
+		return reportExcelGenerationService.findDetails();
 	}
 
 }

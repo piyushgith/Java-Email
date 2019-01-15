@@ -25,13 +25,13 @@ public class ReportDao {
 	@Value("${sql.query}")
 	private String SQL;
 
-	public List<ReportBean> findAll() {
+	public List<Map<String, Object>> findAll() {
 
-		List<ReportBean> reportList = new ArrayList<ReportBean>();
+		//List<ReportBean> reportList = new ArrayList<ReportBean>();
 
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
 
-		for (Map<String, Object> row : rows) {
+/*		for (Map<String, Object> row : rows) {
 			// row.forEach((K, V) -> { System.out.println(V.toString());});
 			ReportBean reportBean = new ReportBean();
 			reportBean.setId((Long) row.get("id"));
@@ -45,8 +45,8 @@ public class ReportDao {
 			reportBean.setUpdateDate((Date) row.get("updateDate"));
 
 			reportList.add(reportBean);
-		}
-		return reportList;
+		}*/
+		return rows.size() > 0 ? rows : null;
 	}
 
 }

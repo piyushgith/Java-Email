@@ -10,7 +10,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,20 +33,21 @@ public class ReportExcelGenerationService {
 
 	@Autowired
 	private ReportDao reportDao;
-	
+
 	@Autowired
 	private SimpleEmail simpleEmail;
-	
-	private Logger LOG=Logger.getLogger(this.getClass());
 
-	private final String folderPath = System.getProperty("user.home")+"/Documents/DataExport";
+	private Logger LOG = Logger.getLogger(this.getClass());
 
-	public List<ReportBean> findDetails() {
-		List<ReportBean> reportList = reportDao.findAll();
-		writeExcelFile(generateFile(folderPath), reportList);
-		return reportList;
-		
+	private final String folderPath = System.getProperty("user.home") + "/Documents/DataExport";
+
+	public String findDetails() {
+		List<Map<String, Object>> rows = reportDao.findAll();
+		writeExcelFile(generateFile(folderPath), rows);
+		return "Generated the report";
+
 	}
+
 	public void sendEmail() {
 		simpleEmail.sendMail(generateFile(folderPath));
 	}
@@ -72,21 +75,26 @@ public class ReportExcelGenerationService {
 
 	}
 
-	private void writeExcelFile(File file, List<ReportBean> reportList) {
+	private void writeExcelFile(File file, List<Map<String, Object>> rowsList) {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("Error Correction");
 		int rowCount = 0;
+		List<String> columnList = new LinkedList<>();// Adding column names to create excel
+		rowsList.get(0).forEach((K, V) -> {
+			columnList.add(K);
+		});
+		//System.out.println(columnList.size());
 
-		createHeaderRow(workbook, sheet, rowCount);
-		createBody(sheet, rowCount, reportList);
+		createHeaderRow(workbook, sheet, rowCount, columnList);
+		createBody(sheet, rowCount, rowsList, columnList);
 
 		FileOutputStream outputStream;
 		try {
 			outputStream = new FileOutputStream(file);
 			workbook.write(outputStream);
 			outputStream.flush();
-			System.gc();  //XSSFWORKBOOK can cause memory issue
+			System.gc(); // XSSFWORKBOOK can cause memory issue
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e1) {
@@ -95,70 +103,44 @@ public class ReportExcelGenerationService {
 
 	}
 
-	private void createBody(XSSFSheet sheet, int rowCount, List<ReportBean> reportList) {
-		SimpleDateFormat sf=new SimpleDateFormat("dd/MMM/YYYY");
-		for (ReportBean report : reportList) {
+	private void createBody(XSSFSheet sheet, int rowCount, List<Map<String, Object>> rowsList,
+			List<String> columnList) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd/MMMM/YYYY");
+		int cellCount = 0;
+		for (Map<String, Object> row : rowsList) {
 			XSSFRow xssRow = sheet.createRow(++rowCount);
-			Cell bodyCell = xssRow.createCell(0);
-			bodyCell.setCellValue(report.getEmail());
-			bodyCell = xssRow.createCell(1);
-			bodyCell.setCellValue(String.valueOf(report.getId()));//converting bigint to string seCellValue can accept double but not good way
-			bodyCell = xssRow.createCell(2);
-			bodyCell.setCellValue(report.getAsset());
-			bodyCell = xssRow.createCell(3);
-			bodyCell.setCellValue(report.getRampEventType());
-			bodyCell = xssRow.createCell(4);
-			bodyCell.setCellValue(report.getLoadStatus());
-			bodyCell = xssRow.createCell(5);
-			bodyCell.setCellValue(report.getStatus());
-			bodyCell = xssRow.createCell(6);
-			bodyCell.setCellValue(sf.format(report.getCreateDate()));
-			bodyCell = xssRow.createCell(7);
-			bodyCell.setCellValue(sf.format(report.getUpdateDate()));
-			bodyCell = xssRow.createCell(8);
-			bodyCell.setCellValue(String.valueOf(report.getOriginalID()));
-
+			Cell bodyCell = null;
+			for (String column_name : columnList) {
+				bodyCell = xssRow.createCell(cellCount);
+				String value = row.get(column_name) instanceof Date ? sf.format(row.get(column_name))
+						: String.valueOf(row.get(column_name));
+				bodyCell.setCellValue(value);
+				cellCount++;
+			}
+			cellCount = 0;
 		}
+
 	}
 
-	private void createHeaderRow(XSSFWorkbook workbook, XSSFSheet sheet, int row) {
+	private void createHeaderRow(XSSFWorkbook workbook, XSSFSheet sheet, int row, List<String> columnList) {
 		CellStyle cs = workbook.createCellStyle();
 		cs.setWrapText(true);
 
 		XSSFRow xssRow = sheet.createRow(row);
+		Cell headerCell = null;
+		int cellCount = 0;
 
-		Cell headerCell = xssRow.createCell(0);
-		headerCell.setCellValue("EMAIL");
-		headerCell = xssRow.createCell(1);
-		headerCell.setCellValue("ID");
-		headerCell = xssRow.createCell(2);
-		headerCell.setCellValue("ASSET");
-		headerCell = xssRow.createCell(3);
-		headerCell.setCellValue("RAMP_EVENT_TYPE");
-		headerCell = xssRow.createCell(4);
-		headerCell.setCellValue("LOAD_STATUS");
-		headerCell = xssRow.createCell(5);
-		headerCell.setCellValue("STATUS");
-		headerCell = xssRow.createCell(6);
-		headerCell.setCellValue("CREATE_DATE");
-		headerCell = xssRow.createCell(7);
-		headerCell.setCellValue("UPDATE_DATE");
-		headerCell = xssRow.createCell(8);
-		headerCell.setCellValue("ORIGINAL_ID");
+		for (String column_name : columnList) {
+			headerCell = xssRow.createCell(cellCount);
+			headerCell.setCellValue(column_name.toUpperCase());
+			sheet.setColumnWidth(cellCount, poiWidth(24.0));
+			cellCount++;
+		}
 
-		sheet.setColumnWidth(0, poiWidth(35.0));
-		sheet.setColumnWidth(1, poiWidth(24.0));
-		sheet.setColumnWidth(2, poiWidth(24.0));
-		sheet.setColumnWidth(3, poiWidth(24.0));
-		sheet.setColumnWidth(4, poiWidth(24.0));
-		sheet.setColumnWidth(5, poiWidth(24.0));
-		sheet.setColumnWidth(6, poiWidth(24.0));
-		sheet.setColumnWidth(7, poiWidth(24.0));
-		sheet.setColumnWidth(8, poiWidth(24.0));
-		
 		row++;
 	}
+
 	private int poiWidth(double width) {
-        return (int) Math.round(width * 256 + 200);
-    }
+		return (int) Math.round(width * 256 + 200);
+	}
 }
