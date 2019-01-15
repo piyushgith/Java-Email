@@ -24,7 +24,7 @@ public class DataCleansingReportApplication {
 	@EventListener(ApplicationReadyEvent.class) //this will initiate this method once server is started
 	public void doSomethingAfterStartup() {
 		log.info("Calling DB to create Excel sheet");
-		reportExcelGenerationService.findDetails();
+		reportExcelGenerationService.sendEmail();
 		log.info("Excel sheet has been generated");
 	}
 

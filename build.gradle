@@ -2,8 +2,8 @@ buildscript {
 	ext {
 		springBootVersion = '1.5.18.RELEASE'
 	}
-	//repositories {	mavenCentral()	}
-	repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
+	repositories {	mavenCentral()	}
+	//repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
@@ -16,8 +16,8 @@ group = 'com.daily.data.cleansing.report'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-//repositories {	mavenCentral() }
-repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
+repositories {	mavenCentral() }
+//repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -25,8 +25,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	runtimeOnly 'mysql:mysql-connector-java'
-	runtimeOnly 'org.apache.poi:poi:3.9'
-	runtimeOnly 'org.apache.poi:poi-ooxml:3.9'
+	implementation 'mysql:mysql-connector-java'
+	implementation 'org.apache.poi:poi:3.9'
+	implementation 'org.apache.poi:poi-ooxml:3.9'
+	//implementation 'javax.mail:mail:1.4.7'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

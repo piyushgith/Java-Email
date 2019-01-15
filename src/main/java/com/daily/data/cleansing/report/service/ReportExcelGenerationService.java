@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.daily.data.cleansing.report.dao.ReportDao;
+import com.daily.data.cleansing.report.email.SimpleEmail;
 import com.daily.data.cleansing.report.model.ReportBean;
 
 @Service
@@ -30,6 +31,9 @@ public class ReportExcelGenerationService {
 
 	@Autowired
 	private ReportDao reportDao;
+	
+	@Autowired
+	private SimpleEmail simpleEmail;
 	
 	private Logger LOG=Logger.getLogger(this.getClass());
 
@@ -41,6 +45,9 @@ public class ReportExcelGenerationService {
 		return reportList;
 		
 	}
+	public void sendEmail() {
+		simpleEmail.sendMail(generateFile(folderPath));
+	}
 
 	private File generateFile(String folderPath) {
 
@@ -51,8 +58,12 @@ public class ReportExcelGenerationService {
 		File file = new File(folderPath + "/" + fileName);
 		// Create only if it does not exist already
 		try {
-			if (!dir.exists()) { dir.mkdir(); }
-			if (!file.exists()) { file.createNewFile(); }
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			if (!file.exists()) {
+				file.createNewFile();
+			}
 
 		} catch (IOException ie) {
 			ie.printStackTrace();
