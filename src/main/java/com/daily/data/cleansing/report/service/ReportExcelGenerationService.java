@@ -49,7 +49,7 @@ public class ReportExcelGenerationService {
 	}
 
 	public void sendEmail() {
-		simpleEmail.sendMail(generateFile(folderPath));
+		simpleEmail.sendMail(generateFile(folderPath)); // not working due to proxy
 	}
 
 	private File generateFile(String folderPath) {
@@ -84,7 +84,7 @@ public class ReportExcelGenerationService {
 		rowsList.get(0).forEach((K, V) -> {
 			columnList.add(K);
 		});
-		//System.out.println(columnList.size());
+		// System.out.println(columnList.size());
 
 		createHeaderRow(workbook, sheet, rowCount, columnList);
 		createBody(sheet, rowCount, rowsList, columnList);

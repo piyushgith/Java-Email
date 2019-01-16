@@ -23,7 +23,7 @@ public class SimpleEmail {
         
         try {
         	helper=new MimeMessageHelper(message,true);
-            helper.setTo("demo@gmail.com");
+            helper.setTo("piyush.prasad@infosys.com");
             helper.setText("Greetings :)\n Please find the attached docuemnt for your reference.");
             helper.setSubject("Mail From Spring Boot");
            // ClassPathResource attachment = new ClassPathResource(file.getAbsolutePath());
