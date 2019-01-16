@@ -1,11 +1,9 @@
 package com.daily.data.cleansing.report.model;
 
-import java.math.BigInteger;
 import java.util.Date;
+//import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Component;
-
-//@Component
+//@Component- Not required any more
 public class ReportBean {
 
 	private Long id;
