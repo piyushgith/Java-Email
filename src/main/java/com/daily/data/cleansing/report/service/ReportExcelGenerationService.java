@@ -39,7 +39,7 @@ public class ReportExcelGenerationService {
 
 	private Logger LOG = Logger.getLogger(this.getClass());
 
-	private final String folderPath = System.getProperty("user.home") + "/Documents/DataExport";
+	private final String folderPath = System.getProperty("user.home") + "/Desktop/DataExport";
 
 	public String findDetails() {
 		List<Map<String, Object>> rows = reportDao.findAll();
