@@ -20,14 +20,14 @@ repositories {	mavenCentral() }
 //repositories { maven { url 'http://nexus.rez1.com/repository/public' } }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'mysql:mysql-connector-java'
-	implementation 'org.apache.poi:poi:3.9'
-	implementation 'org.apache.poi:poi-ooxml:3.9'
-	//implementation 'javax.mail:mail:1.4.7'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework.boot:spring-boot-starter-jdbc'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-data-rest'
+	compile 'org.springframework.boot:spring-boot-starter-mail'
+	compile 'mysql:mysql-connector-java'
+	compile 'org.apache.poi:poi:3.9'
+	compile 'org.apache.poi:poi-ooxml:3.9'
+	//compile 'javax.mail:mail:1.4.7'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }

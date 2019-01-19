@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +35,7 @@ public class ReportExcelGenerationService {
 
 	private Logger LOG = Logger.getLogger(this.getClass());
 
-	private final String folderPath = System.getProperty("user.home") + "/Documents/DataExport";
+	private final String folderPath = System.getProperty("user.home") + "/Desktop/DataExport";
 
 	public String findDetails() {
 		List<Map<String, Object>> rows = reportDao.findAll();
