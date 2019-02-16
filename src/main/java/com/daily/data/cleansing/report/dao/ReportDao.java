@@ -57,8 +57,8 @@ public class ReportDao {
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL);
 
 		return rows.size() > 0 ? rows : null;
+ }
 }
-
 /*		//sql.query=SELECT TSGRoster.email, RE.id, concat(RE.assetPrefix, RE.assetNumber) as Asset, 
 		RE.rampEventType, RE.loadStatus, RE.status, RE.createDate, RE.updateDate, RE.originalID 
 		FROM operational.ResolvedEvent RE JOIN csg_database.TSGRoster 
